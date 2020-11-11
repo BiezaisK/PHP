@@ -11,11 +11,19 @@
 
         if ($response) {
             if (!empty($_POST["password"])) {
-                $isValidPassword = password_verify($_POST["password"], $response["password"]);
+                $salt = "dfdsfsffdsf";
+                $password = $_POST["password"];
+                $password = $password . $salt;
+                
+                $isValidPassword = password_verify(
+                    $_POST["password"], 
+                    $response["password"]);
 
 
                 if ($isValidPassword) {
-                    echo "You have logged in";
+                    session_start();
+                    $_SESSION["id"] = $response["email"];
+                    Header ("Location: / php/mvc/?page=list");
                 } else {
                     echo "Invalid password";
                 }
@@ -27,7 +35,6 @@
             echo "User with email: '$email' does not exist";
         }
     }
-
 
           $from = new UserForm();
           $from->setBtnText("Login");

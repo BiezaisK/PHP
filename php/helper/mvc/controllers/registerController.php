@@ -8,8 +8,13 @@ require_once __DIR__. "/../../database-wrapper.php";
 
 if (!empty ($_POST["email"]) &&  !empty($_POST["password"]))  {
     $email = $_POST["email"];
-    $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-        
+    $password = $_POST["password"];
+    $salt = "dfdsfsffdsf";
+    
+    $password = $password . $salt;
+    $password = password_hash($password, PASSWORD_DEFAULT);
+    
+
     $sql = "INSERT INTO users (email, password) VALUES ('$email', '$password')";
 
     DB::run($sql);

@@ -4,11 +4,18 @@
     require_once __DIR__ . "/../views/listView.php";
     require_once __DIR__ . "/../models/listModels.php";
     require_once __DIR__ . "/../components/modifyForm.php";
+
+    
+    if (isset($_POST["logOut"])) {
+        session_destroy();
+        Header("Location: /php/mvc/?page=login");
+    }
     $model = new listModel();
     $products = $model->getAll();
-
+    
     $view = new listView($products);
     $view->html();
+
 
     if (isset($_GET["action"]) && $_GET["action"] === "modify") {
         if (isset($_GET["product_id"])) {
